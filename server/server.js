@@ -9,6 +9,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
+// Create our API routes
 app.post('/todos', (req, res) => {
   // console.log(req.body);
   var todo = new Todo({
@@ -20,6 +21,15 @@ app.post('/todos', (req, res) => {
     res.send(doc);
   }, (err) => {
     res.status(400).send(err);
+  });
+});
+
+app.get('/todos', (req, res) => {
+  Todo.find().then((todos) => {
+    // Send list back as an object instead of an array
+    res.send({todos})
+  }, (e) => {
+    res.status(400).send(e);
   });
 });
 
